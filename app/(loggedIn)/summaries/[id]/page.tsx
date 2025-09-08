@@ -8,6 +8,8 @@ import { notFound } from "next/navigation";
 import DownloadButtons from "@/components/summary/download-buttons";
 import SummaryLayout from "@/components/summary/summary-layout";
 
+export const dynamic = 'force-dynamic';
+
 interface SummaryPageProps {
   params: Promise<{
     id: string;

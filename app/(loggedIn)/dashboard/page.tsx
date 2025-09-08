@@ -5,6 +5,8 @@ import { getUserSummaries } from "@/actions/summary-actions";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
+export const dynamic = 'force-dynamic';
+
 function SummaryListSkeleton() {
   return null;
 }

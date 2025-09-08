@@ -5,6 +5,8 @@ import { getUserSummaryCount } from "@/actions/summary-actions";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
 
+export const dynamic = 'force-dynamic';
+
 export default async function page() {
   const summaryCountResult = await getUserSummaryCount();
   const currentCount = summaryCountResult.data || 0;
