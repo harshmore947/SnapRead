@@ -6,27 +6,27 @@ SnapRead is a modern, intelligent PDF summarization platform that transforms len
 
 ### Landing Page & Authentication
 
-![Landing Page](./images/Screenshot%202025-09-08%20221019.png)
+![Landing Page](images/Screenshot%202025-09-08%20221019.png)
 _Beautiful landing page with modern design and clear call-to-action_
 
 ### Dashboard & PDF Management
 
-![Dashboard](./images/Screenshot%202025-09-08%20221317.png)
+![Dashboard](images/Screenshot%202025-09-08%20221317.png)
 _Clean dashboard interface showing uploaded PDFs and summary cards_
 
 ### PDF Upload Interface
 
-![Upload Interface](./images/Screenshot%202025-09-08%20221330.png)
+![Upload Interface](images/Screenshot%202025-09-08%20221330.png)
 _Intuitive drag-and-drop PDF upload with progress tracking_
 
 ### AI-Generated Summary View
 
-![Summary View](./images/Screenshot%202025-09-08%20222639.png)
+![Summary View](images/Screenshot%202025-09-08%20222639.png)
 _Structured AI summaries with section navigation and download options_
 
 ### Interactive Chat with PDF
 
-![Chat Interface](./images/Screenshot%202025-09-08%20234712.png)
+![Chat Interface](images/Screenshot%202025-09-08%20234712.png)
 _Real-time chat interface for asking questions about PDF content_
 
 ## ✨ Features
@@ -127,10 +127,6 @@ GOOGLE_GENERATIVE_AI_API_KEY="your-gemini-api-key"
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="your-cloud-name"
 CLOUDINARY_API_KEY="your-api-key"
 CLOUDINARY_API_SECRET="your-api-secret"
-
-# UploadThing
-UPLOADTHING_SECRET="your-uploadthing-secret"
-UPLOADTHING_APP_ID="your-uploadthing-app-id"
 ```
 
 4. **Set up the database**
