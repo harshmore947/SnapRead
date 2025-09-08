@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  full_name   String
+  customer_id String
+  price_id    String
+  status      Boolean
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  // Relations
+  pdfSummaries PDFSummaries[]
+  chatMessages ChatMessage[]
+  payments     payments[]
+}
+
+model PDFSummaries {
+  id                String   @id @default(cuid())
+  userId            String
+  original_file_url String
+  summary_text      String
+  status            Boolean
+  title             String
+  file_name         String
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  // Relation to User
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Relation to ChatMessages
+  chatMessages ChatMessage[]
+}
+
+model ChatMessage {
+  id         String   @id @default(cuid())
+  summaryId  String
+  userId     String
+  message    String
+  response   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  // Relations
+  summary PDFSummaries @relation(fields: [summaryId], references: [id], onDelete: Cascade)
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model payments {
+  id                String   @id @default(cuid())
+  amount            Int
+  status            String
+  stripe_payment_id String
+  price_id          String
+  user_email        String
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  // Relation to User (using email for now, but consider switching to userId)
+  user User @relation(fields: [user_email], references: [email], onDelete: Cascade)
+}
