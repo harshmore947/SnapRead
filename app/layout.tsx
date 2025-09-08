@@ -15,6 +15,14 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: "SnapRead - AI powered PDF summarization",
   description: "SnapRead is an app for summarizing pdfs",
+  icons: {
+    icon: [
+      { url: "/snapread-favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/snapread-favicon.svg",
+    apple: "/snapread-favicon.svg",
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({

@@ -1,0 +1,17 @@
+{
+  "name": "SnapRead - AI PDF Summarizer",
+  "short_name": "SnapRead",
+  "description": "AI-powered PDF summarization with interactive chat",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f43f5e",
+  "icons": [
+    {
+      "src": "/snapread-favicon.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with rose gradient -->
+  <circle cx="16" cy="16" r="16" fill="url(#roseGradient)"/>
+
+  <!-- Document icon with clean lines -->
+  <rect x="9" y="7" width="8" height="12" rx="1" fill="white" stroke="white" stroke-width="0.5"/>
+  <rect x="11" y="9" width="4" height="0.8" rx="0.4" fill="#f43f5e"/>
+  <rect x="11" y="11.5" width="3" height="0.8" rx="0.4" fill="#f43f5e"/>
+  <rect x="11" y="14" width="4.5" height="0.8" rx="0.4" fill="#f43f5e"/>
+  <rect x="11" y="16.5" width="2.5" height="0.8" rx="0.4" fill="#f43f5e"/>
+
+  <!-- AI brain/sparkle effect -->
+  <g opacity="0.8">
+    <!-- Neural network dots -->
+    <circle cx="22" cy="8" r="1" fill="white"/>
+    <circle cx="25" cy="11" r="0.7" fill="white"/>
+    <circle cx="20" cy="13" r="0.6" fill="white"/>
+    <circle cx="26" cy="9" r="0.5" fill="white"/>
+    <circle cx="23" cy="14" r="0.4" fill="white"/>
+
+    <!-- Connection lines -->
+    <line x1="22" y1="8" x2="25" y2="11" stroke="white" stroke-width="0.3" opacity="0.6"/>
+    <line x1="25" y1="11" x2="23" y2="14" stroke="white" stroke-width="0.3" opacity="0.6"/>
+    <line x1="20" y1="13" x2="23" y2="14" stroke="white" stroke-width="0.3" opacity="0.6"/>
+  </g>
+
+  <!-- Professional accent -->
+  <rect x="13" y="6" width="2" height="1" rx="0.5" fill="#f43f5e" opacity="0.8"/>
+
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="roseGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f43f5e;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#e11d48;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#be185d;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>
