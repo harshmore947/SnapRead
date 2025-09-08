@@ -31,7 +31,7 @@ export default function HeroSection() {
             aria-hidden="true"
           ></span>{" "}
         </span>
-        summaries
+        summaries and chat
       </h1>
       <h2 className="text-lg sm:text-xl lg:text-2xl text-center px-4 lg:px-2 lg:max-w-4xl text-gray-600">
         Get beautiful summary reel of the document in seconds
