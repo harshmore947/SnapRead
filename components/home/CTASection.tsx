@@ -4,19 +4,27 @@ import { ArrowRight } from "lucide-react";
 
 export default function CTASection() {
   return (
-    <section className="bg-gray-50 py-12">
-      <div className="py-12 lg:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center">
-          <div className="space-y-2 ">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Ready to save Hours of Reading Time?</h2>
-            <p className="mx-auto max-w-2xl text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-              Transform lengthy documents into clear, actionable insights with
-              our AI-powered summarizer.
-            </p>
-          </div>
-          <div>
-            <Button size={"lg"} variant={'link'} className="w-full min-[400px]:w-auto bg-linear-to-r from-slate-900 to-rsoe-500 hover:scale-105 transition-all duration-300 ease-in-out ">
-            <Link className="flex justify-center items-center text-white" href={"/#pricing"}>Get started{' '}<ArrowRight className="ml-2 h-4 w-4 animate-pulse"/></Link>
+    <section className="relative isolate bg-white py-24 lg:py-32">
+      <div className="mx-auto max-w-5xl px-6 lg:px-8">
+        <div className="flex flex-col items-center justify-center space-y-6 text-center">
+          <h2 className="font-display text-4xl font-600 tracking-tight text-rose-950 sm:text-5xl">
+            Ready to save hours of reading time?
+          </h2>
+          <p className="max-w-2xl text-lg font-normal leading-relaxed text-gray-600 sm:text-xl">
+            Transform lengthy documents into clear, actionable insights with
+            our AI-powered summarizer.
+          </p>
+          <div className="mt-4">
+            <Button
+              asChild
+              size="lg"
+              variant="default"
+              className="rounded-pill px-8 py-4 text-base font-light"
+            >
+              <Link href="/sign-up" className="flex items-center gap-2">
+                Get started
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </Button>
           </div>
         </div>

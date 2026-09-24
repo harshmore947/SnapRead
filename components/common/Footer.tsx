@@ -3,8 +3,8 @@ import Link from "next/link";
 
 function Footer() {
   return (
-    <footer className=" bg-white/50 backdrop-blur-sm">
-      <div className="mx-auto max-w-7xl px-6 py-8">
+    <footer className=" bg-white/50 backdrop-blur-sm nav-frosted">
+      <div className="mx-auto max-w-7xl px-6 py-8 section-rhythm">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           {/* Logo and Description */}
           <div className="flex items-center gap-2">
@@ -12,7 +12,7 @@ function Footer() {
               <div className="rounded-lg bg-gradient-to-br from-rose-400 to-rose-600 p-2">
                 <FileText className="h-4 w-4 text-white" />
               </div>
-              <span className="text-lg font-semibold text-gray-900">
+              <span className="text-lg font-semibold text-gray-900 tracking-tight-display">
                 SnapRead
               </span>
             </div>
@@ -45,7 +45,7 @@ function Footer() {
 
         {/* Bottom section */}
         <div className="mt-6 border-t border-gray-200 pt-4 text-center">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 fine-print">
             © {new Date().getFullYear()} SnapRead. Transform your PDFs into
             digestible summaries.
           </p>

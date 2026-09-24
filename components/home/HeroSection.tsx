@@ -11,44 +11,55 @@ export default function HeroSection() {
   const { isSignedIn } = useAuth();
 
   return (
-    <section className="relative mx-auto flex flex-col z-0 items-center justify-center py-16 sm:py-20 lg:pb-28 transition-all animate-in lg:px-12 max-w-7xl">
-      <div className="relative p-[1px] overflow-hidden rounded-full bg-gradient-to-r from-rose-200 via-rose-500 to-rose-800 animate-gradient-x group">
-        <Badge
-          variant={"secondary"}
-          className="relative px-6 py-2 text-base font-medium bg-white rounded-full group-hover:bg-gray-50 transition-colors duration-200"
-        >
-          <Sparkle className="h-6 w-6 mr-2 text-rose-600 animate-pulse transition-all duration-200 ease-in-out" />
-          <p className="text-base text-rose-600">Powered by AI</p>
-        </Badge>
-      </div>
-
-      <h1 className="font-bold py-6 text-center">
-        Transform PDF's into{" "}
-        <span className="relative inline-block">
-          <span className="relative z-10 px-2">concise</span>
-          <span
-            className="absolute inset-0 bg-rose-200/50 -rotate-2 rounded-lg transform -skew-y-1"
-            aria-hidden="true"
-          ></span>{" "}
-        </span>
-        summaries and chat
-      </h1>
-      <h2 className="text-lg sm:text-xl lg:text-2xl text-center px-4 lg:px-2 lg:max-w-4xl text-gray-600">
-        Get beautiful summary reel of the document in seconds
-      </h2>
-      <div>
-        <Button
-          variant={"link"}
-          className="mt-6 text-white lg:text-xl rounded-full px-8 sm:px-10 lg:px-12 py-6 sm:py-7 lg:py-8 lg:mt-16 bg-linear-to-r from bg-slate-900 to-rose-500 hover:from-rose-900 hover:to-slate-900 hover:no-underline shadow-lg font-bold transition-colors duration-400 ease-in-out"
-        >
-          <Link
-            href={isSignedIn ? "/dashboard" : "/sign-up"}
-            className="flex gap-2 items-center"
+    <section className="relative isolate overflow-hidden bg-white">
+      <div className="relative mx-auto flex flex-col items-center justify-center px-6 py-24 sm:py-32 lg:px-8 lg:py-36 xl:py-44">
+        <div className="flex flex-col items-center text-center">
+          <Badge
+            variant="secondary"
+            className="relative mb-8 inline-flex items-center gap-2 rounded-pill bg-rose-50 px-5 py-2 text-sm font-normal text-rose-600 ring-1 ring-inset ring-rose-200"
           >
-            {isSignedIn ? "Go to Dashboard" : "Try SnapRead"}
-            <ArrowRight className="animate-pulse" />
-          </Link>
-        </Button>
+            <Sparkle className="h-4 w-4 text-rose-500" />
+            Powered by AI
+          </Badge>
+
+          <h1 className="font-display text-5xl font-600 tracking-tight text-rose-950 sm:text-6xl lg:text-7xl xl:text-8xl">
+            Transform PDFs into{" "}
+            <span className="relative whitespace-nowrap">
+              <span className="relative z-10 bg-rose-600 px-2 text-white">concise</span>{" "}
+            </span>
+            summaries and chat
+          </h1>
+
+          <p className="mt-8 max-w-3xl text-lg font-normal leading-relaxed text-gray-600 sm:text-xl">
+            Get a beautiful, easy-to-read summary of your document in seconds.
+            Ask questions and get grounded answers from the pages you care about.
+          </p>
+
+          <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Button
+              asChild
+              size="lg"
+              variant="default"
+              className="rounded-pill px-8 py-4 text-base font-light"
+            >
+              <Link
+                href={isSignedIn ? "/dashboard" : "/sign-up"}
+                className="flex items-center gap-2"
+              >
+                {isSignedIn ? "Go to Dashboard" : "Try SnapRead"}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="rounded-pill px-8 py-4 text-base font-light"
+            >
+              <Link href="/upload">Upload a PDF</Link>
+            </Button>
+          </div>
+        </div>
       </div>
     </section>
   );

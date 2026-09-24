@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../lib/generated/prisma"
@@ -15,31 +12,97 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  email       String   @unique
-  full_name   String
-  customer_id String
-  price_id    String
-  status      Boolean
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?   // Hashed with bcrypt
+  full_name     String?
+  customer_id   String?
+  price_id      String?
+  status        Boolean   @default(true)
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
 
-  // Relations
+  // NextAuth relations (ready for Google, GitHub & credentials)
+  accounts     Account[]
+  sessions     Session[]
+
+  // App relations
   pdfSummaries PDFSummaries[]
   chatMessages ChatMessage[]
   payments     payments[]
 }
 
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model PasswordResetToken {
+  id         String   @id @default(cuid())
+  email      String
+  token      String   @unique
+  expires    DateTime
+  created_at DateTime @default(now())
+
+  @@unique([email, token])
+}
+
+enum DocumentStatus {
+  UPLOADED
+  QUEUED
+  PARSING
+  CHUNKING
+  INDEXING
+  READY
+  FAILED
+}
+
 model PDFSummaries {
-  id                String   @id @default(cuid())
+  id                String          @id @default(cuid())
   userId            String
   original_file_url String
-  summary_text      String
-  status            Boolean
+  raw_text          String?         @db.Text
+  summary_text      String?         @db.Text
+  doc_status        DocumentStatus  @default(UPLOADED)
+  chunks            DocumentChunk[]
+  error_message     String?
   title             String
   file_name         String
-  created_at        DateTime @default(now())
-  updated_at        DateTime @updatedAt
+  created_at        DateTime        @default(now())
+  updated_at        DateTime        @updatedAt
 
   // Relation to User
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -74,4 +137,20 @@ model payments {
 
   // Relation to User (using email for now, but consider switching to userId)
   user User @relation(fields: [user_email], references: [email], onDelete: Cascade)
+}
+
+model DocumentChunk {
+  id             String   @id @default(cuid())
+  summaryId      String
+  page_number    Int
+  section_path   String   @default("GENERAL")
+  content        String   @db.Text
+  token_estimate Int      @default(0)
+  content        String   @db.Text
+  created_at     DateTime @default(now())
+
+  // relation to parent PDFSummary
+  summary PDFSummaries @relation(fields: [summaryId], references: [id], onDelete: Cascade)
+
+  @@index([summaryId])
 }

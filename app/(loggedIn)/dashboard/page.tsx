@@ -7,10 +7,6 @@ import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
-function SummaryListSkeleton() {
-  return null;
-}
-
 async function SummaryList() {
   const result = await getUserSummaries();
   const summaries = result.success ? result.data : [];
@@ -25,15 +21,30 @@ async function SummaryList() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-8">
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+          <div className="utility-card p-8">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-100 mx-auto">
+              <svg
+                className="h-6 w-6 text-rose-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                />
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
               No summaries yet
             </h3>
             <p className="text-gray-600 mb-4">
               Upload your first PDF to get started with AI-powered summaries.
             </p>
             <Link href="/upload">
-              <Button className="bg-gradient-to-r from-rose-500 to-rose-700 hover:from-rose-600 hover:to-rose-500">
+              <Button size="lg" variant="default" className="rounded-pill px-8 py-3 text-base font-light">
                 <Plus className="h-4 w-4 mr-2" />
                 Upload PDF
               </Button>
@@ -45,8 +56,8 @@ async function SummaryList() {
       {/* Upload Limit Notice */}
       {summaries && summaries.length >= 3 && (
         <div className="px-2 mb-6 mt-6">
-          <div className="bg-rose-50 border border-rose-200 rounded-lg p-4 text-rose-800">
-            <p className="text-sm">You have reached the limit of 3 uploads</p>
+          <div className="rounded-sm bg-rose-50 border border-rose-200 p-4 text-rose-800 text-sm">
+            You have reached the limit of 3 uploads
           </div>
         </div>
       )}
@@ -56,34 +67,27 @@ async function SummaryList() {
 
 export default async function DashboardPage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-white">
       <BgGradient />
       <div className="flex flex-col gap-4 w-full">
-        <div className="px-2 py-12 sm:py-12 flex gap-4 mb-8 justify-between items-center">
-          <div className="flex flex-col gap-2 ">
-            <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-gray-600 to-gray-900 bg-clip-text text-transparent">
+        <div className="px-6 py-12 sm:py-12 flex gap-4 mb-8 justify-between items-center">
+          <div className="flex flex-col gap-2">
+            <h1 className="font-display text-4xl font-600 tracking-tight text-rose-950 sm:text-5xl">
               Your Summaries
             </h1>
             <p className="text-gray-600">
               Transform your PDFs into concise, actionable insights
             </p>
           </div>
-          <Button
-            className="bg-gradient-to-r from-rose-500 to-rose-700 hover:no-underline hover:from-rose-600 hover:to-rose-500 hover:scale-105 transition-all duration-300 ease-in-out"
-            variant={"link"}
-          >
-            <Link
-              href={"/upload"}
-              className="flex text-white items-center gap-2"
-            >
-              <Plus className="h-5 w-5" />
-              New Summary
-            </Link>
-          </Button>
+          <Link href="/upload">
+            <Button size="lg" variant="default" className="rounded-pill px-8 py-3 text-base font-light">
+              <Plus className="h-4 w-4" /> New Summary
+            </Button>
+          </Link>
         </div>
 
         {/* Summary Cards Grid */}
-        <div className="px-2 mb-6">
+        <div className="px-6 mb-6">
           <SummaryList />
         </div>
       </div>

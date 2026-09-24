@@ -7,6 +7,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import DownloadButtons from "@/components/summary/download-buttons";
 import SummaryLayout from "@/components/summary/summary-layout";
+import DocumentProcessingView from "@/components/summary/document-processing-view";
 
 export const dynamic = "force-dynamic";
 
@@ -53,12 +54,15 @@ export default async function SummaryPage({ params }: SummaryPageProps) {
     }).format(new Date(date));
   };
 
-  const getReadingTime = (text: string) => {
+  const getReadingTime = (text: string | null) => {
+    if (!text) return "0 min read";
     const wordsPerMinute = 200;
     const wordCount = text.split(/\s+/).length;
     const minutes = Math.ceil(wordCount / wordsPerMinute);
     return `${minutes} min read`;
   };
+
+  const isReady = summary.doc_status === "READY" && !!summary.summary_text;
 
   return (
     <main className="min-h-screen">
@@ -79,12 +83,14 @@ export default async function SummaryPage({ params }: SummaryPageProps) {
                   {formatDate(summary.created_at)}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-gray-600">
-                <Clock className="h-3 w-3" />
-                <span className="text-xs">
-                  {getReadingTime(summary.summary_text)}
-                </span>
-              </div>
+              {isReady && (
+                <div className="flex items-center gap-2 text-gray-600">
+                  <Clock className="h-3 w-3" />
+                  <span className="text-xs">
+                    {getReadingTime(summary.summary_text)}
+                  </span>
+                </div>
+              )}
             </div>
 
             <Link href="/dashboard">
@@ -110,22 +116,35 @@ export default async function SummaryPage({ params }: SummaryPageProps) {
             </div>
 
             {/* Action buttons - compact */}
-            <div className="ml-4">
-              <DownloadButtons
-                summaryId={summary.id}
-                originalFileUrl={summary.original_file_url}
-                summaryTitle={summary.title}
-              />
-            </div>
+            {isReady && (
+              <div className="ml-4">
+                <DownloadButtons
+                  summaryId={summary.id}
+                  originalFileUrl={summary.original_file_url}
+                  summaryTitle={summary.title}
+                />
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Content Area - Summary and Chat */}
-        <SummaryLayout
-          summaryText={summary.summary_text}
-          summaryId={summary.id}
-          summaryTitle={summary.title}
-        />
+        {/* Content Area - Summary & Chat OR Processing View */}
+        {isReady ? (
+          <SummaryLayout
+            summaryText={summary.summary_text!}
+            summaryId={summary.id}
+            summaryTitle={summary.title}
+          />
+        ) : (
+          <div className="py-8">
+            <DocumentProcessingView
+              documentId={summary.id}
+              initialStatus={summary.doc_status}
+              initialErrorMessage={summary.error_message}
+              documentTitle={summary.title}
+            />
+          </div>
+        )}
       </div>
     </main>
   );

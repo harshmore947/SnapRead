@@ -1,7 +1,6 @@
 "use server";
 
-import { generateSummaryFromGemini } from "@/lib/geminiAI";
-import { fectAndExtractionPdfText } from "@/lib/langchain";
+import { inngest } from "@/lib/inngest/client";
 import { prisma } from "@/lib/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
@@ -17,10 +16,10 @@ export async function generatePdfSummary(
     };
   }>
 ) {
-  if (!uploadResponse) {
+  if (!uploadResponse || uploadResponse.length === 0) {
     return {
       success: false,
-      message: "failed upload file in summary function",
+      message: "Failed to upload file: No upload response received",
       data: null,
     };
   }
@@ -35,15 +34,13 @@ export async function generatePdfSummary(
   if (!pdfUrl) {
     return {
       success: false,
-      message: "failed upload file in summary function",
+      message: "Failed to upload file: No PDF URL returned",
       data: null,
     };
   }
 
-  // Get user data from Clerk
+  // Authenticate user with Clerk
   const { userId: clerkUserId } = await auth();
-  console.log("Auth check - Form userId:", userId);
-  console.log("Auth check - Clerk userId:", clerkUserId);
 
   if (!clerkUserId || clerkUserId !== userId) {
     console.error("User authentication mismatch!");
@@ -54,37 +51,16 @@ export async function generatePdfSummary(
     };
   }
 
-  // Get full user data from Clerk
   const clerkUser = await currentUser();
-  console.log(
-    "Clerk currentUser result:",
-    clerkUser ? "User data retrieved" : "No user data"
-  );
-
-  if (!clerkUser) {
-    console.log("No clerk user data available, using basic user creation");
-  }
 
   try {
-    const pdfText = await fectAndExtractionPdfText(pdfUrl);
-    console.log("PDF text extracted successfully");
-
     // Check if user exists in database, if not create them
     let user = await prisma.user.findUnique({
       where: { id: userId },
     });
 
-    console.log("User lookup result:", user ? "User found" : "User not found");
-
     if (!user) {
       console.log("User not found in database, creating user record");
-      console.log("Clerk user data:", {
-        id: clerkUser?.id,
-        email: clerkUser?.emailAddresses[0]?.emailAddress,
-        firstName: clerkUser?.firstName,
-        lastName: clerkUser?.lastName,
-      });
-
       try {
         user = await prisma.user.create({
           data: {
@@ -114,8 +90,6 @@ export async function generatePdfSummary(
           data: null,
         };
       }
-    } else {
-      console.log("User already exists:", user.id);
     }
 
     // Check if user has reached the 3 PDF limit
@@ -124,8 +98,6 @@ export async function generatePdfSummary(
         userId: userId,
       },
     });
-
-    console.log("User's current summary count:", existingSummaryCount);
 
     if (existingSummaryCount >= 3) {
       console.log("User has reached the maximum limit of 3 PDFs");
@@ -137,51 +109,49 @@ export async function generatePdfSummary(
       };
     }
 
-    let summary = "";
-    try {
-      console.log("Entering Google Gemini");
-      summary = await generateSummaryFromGemini(pdfText);
-      console.log(summary);
-    } catch (geminiError) {
-      console.log("Gemini API failed, proceeding without summary");
-      summary = "Summary generation failed - please try again later";
-    }
-
-    // Save to database
-    console.log("About to save PDF summary with userId:", userId);
-    console.log("User object:", user);
-
+    // Create initial document record with QUEUED status
     const savedSummary = await prisma.pDFSummaries.create({
       data: {
         userId: userId,
         original_file_url: pdfUrl,
-        summary_text: summary,
-        status: true,
-        title: fileName.replace(/\.[^/.]+$/, ""), // Remove file extension for title
+        doc_status: "QUEUED",
+        title: fileName.replace(/\.[^/.]+$/, ""), // Strip file extension
         file_name: fileName,
       },
     });
 
-    console.log("PDF summary saved to database:", savedSummary.id);
+    console.log("Document queued in database with ID:", savedSummary.id);
+
+    // Trigger asynchronous durable processing pipeline via Inngest
+    await inngest.send({
+      name: "document/uploaded",
+      data: {
+        documentId: savedSummary.id,
+        fileUrl: pdfUrl,
+      },
+    });
+
+    console.log("Inngest event 'document/uploaded' dispatched successfully");
 
     revalidatePath(`/summaries/${savedSummary.id}`);
+    revalidatePath("/dashboard");
 
     return {
       success: true,
-      message: "PDF processed and saved successfully",
+      message: "PDF uploaded and processing started",
       data: {
         id: savedSummary.id,
-        summary: summary,
         title: savedSummary.title,
         fileName: savedSummary.file_name,
+        doc_status: savedSummary.doc_status,
         createdAt: savedSummary.created_at,
       },
     };
   } catch (error) {
-    console.error("Error processing PDF:", error);
+    console.error("Error initiating PDF processing:", error);
     return {
       success: false,
-      message: "Failed to process PDF",
+      message: "Failed to initiate PDF processing",
       data: null,
     };
   }

@@ -66,7 +66,7 @@ export async function sendChatMessage(summaryId: string, message: string) {
 
     // Generate AI response based on the PDF content using our Gemini function
     const response = await generateChatResponseFromGemini(
-      summary.summary_text,
+      summary.summary_text ?? "",
       summary.title,
       message
     );

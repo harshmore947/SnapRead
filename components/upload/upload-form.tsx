@@ -79,9 +79,9 @@ export default function UploadFrom() {
 
       setMessage(url ? `Uploaded! ${url}` : "Uploaded, but no URL returned");
 
-      // Prepare data for summary generation
-      toast.loading("🤖 Generating AI summary...", {
-        id: "summary-toast",
+      // Dispatch background processing
+      toast.loading("⚙️ Queueing document for processing...", {
+        id: "process-toast",
       });
       const summaryData = [
         {
@@ -98,7 +98,7 @@ export default function UploadFrom() {
       const summary = await generatePdfSummary(summaryData);
       console.log(summary);
 
-      toast.dismiss("summary-toast");
+      toast.dismiss("process-toast");
 
       if (!summary.success) {
         toast.error(`🚫 ${summary.message}`, {
@@ -109,8 +109,8 @@ export default function UploadFrom() {
         return;
       }
 
-      toast.success("🎉 Summary generated successfully!", {
-        duration: 3000,
+      toast.success("🚀 Processing started! Redirecting...", {
+        duration: 2000,
       });
 
       router.push(`/summaries/${summary.data?.id}`);
@@ -135,24 +135,52 @@ export default function UploadFrom() {
     } finally {
       setLoading(false);
     }
-
-    //uplaod the file to cloudinary
-
-    //summarize the pdf using lang chain
-    //summarie the pdf using AI
-    //save the summary to the database
-    //redirect to the [id summary] page
   }
+
   return (
     <form
       ref={formRef}
       className="flex flex-col gap-8 w-full max-w-2xl mx-auto"
       onSubmit={handleSubmit}
     >
-      <div className="flex flex-col justify-end items-center gap-1">
-        <div className="w-full flex justify-end items-center gap-1">
-          <Input id="file" name="file" type="file" accept="application/pdf" />
-          <Button disabled={loading}>Upload your pdf</Button>
+      <div className="text-center">
+        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-100 mx-auto">
+          <svg
+            className="h-6 w-6 text-rose-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+            />
+          </svg>
+        </div>
+        <h2 className="text-2xl font-semibold text-gray-900">Upload your PDF</h2>
+        <p className="mt-2 text-gray-600">
+          Drag and drop or click to select a PDF file (max 20MB)
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <Input
+          id="file"
+          name="file"
+          type="file"
+          accept="application/pdf"
+          className="rounded-pill cursor-pointer bg-white/50 border-rose-200 focus:border-rose-400 focus:ring-rose-400/30 focus:ring-[3px] px-5 py-3"
+        />
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button
+            type="submit"
+            disabled={loading}
+            className="flex-1 rounded-pill py-3 text-base font-light"
+          >
+            {loading ? "Uploading..." : "Upload your PDF"}
+          </Button>
           <Button
             type="button"
             variant="outline"
@@ -164,12 +192,16 @@ export default function UploadFrom() {
               });
             }}
             disabled={loading}
+            className="flex-1 rounded-pill py-3 text-base font-light"
           >
             Clear
           </Button>
         </div>
-        <p className="text-sm text-gray-600">{message}</p>
       </div>
+
+      {message && (
+        <p className="text-sm text-center text-gray-600">{message}</p>
+      )}
     </form>
   );
 }

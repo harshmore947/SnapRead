@@ -30,8 +30,9 @@ interface PDFSummary {
   id: string;
   title: string;
   file_name: string;
-  summary_text: string;
-  status: boolean;
+  summary_text: string | null;
+  doc_status?: string;
+  status?: boolean;
   created_at: Date;
   original_file_url: string;
 }
@@ -45,6 +46,11 @@ export default function SummaryCard({ summary }: SummaryCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const router = useRouter();
+
+  const isCompleted =
+    summary.doc_status === "READY" ||
+    (!summary.doc_status && !!summary.summary_text);
+  const isFailed = summary.doc_status === "FAILED";
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -130,17 +136,17 @@ export default function SummaryCard({ summary }: SummaryCardProps) {
 
   return (
     <Card
-      className="w-full hover:scale-105 transition-all duration-400 ease-in-out hover:shadow-md hover:bg-white cursor-pointer"
+      className="w-full hover:scale-[102] transition-all duration-300 ease-in-out hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)]"
       onClick={() => handleOnClick(summary.id)}
     >
       <CardHeader>
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between pb-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-rose-100 rounded-lg">
+            <div className="p-2 bg-rose-50 rounded-utility-card">
               <FileText className="h-5 w-5 text-rose-600" />
             </div>
             <div>
-              <CardTitle className="text-lg font-semibold text-gray-900">
+              <CardTitle className="text-xl font-semibold text-gray-900">
                 {summary.title}
               </CardTitle>
               <CardDescription className="text-sm text-gray-500">
@@ -153,21 +159,23 @@ export default function SummaryCard({ summary }: SummaryCardProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-gray-400 hover:text-red-600"
+                className="text-gray-400 hover:text-rose-500"
                 onClick={(e) => e.stopPropagation()} // Prevent card click
               >
-                <Trash2 className="h-4 w-4 text-white" />
+                <Trash2 className="h-4 w-4" />
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="p-6">
               <DialogHeader>
-                <DialogTitle>Delete Summary</DialogTitle>
-                <DialogDescription>
+                <DialogTitle className="text-lg font-semibold">
+                  Delete Summary
+                </DialogTitle>
+                <DialogDescription className="mt-2 text-sm">
                   Are you sure you want to delete "{summary.title}"? This action
                   cannot be undone.
                 </DialogDescription>
               </DialogHeader>
-              <DialogFooter>
+              <DialogFooter className="flex justify-end pt-4 space-x-3">
                 <Button
                   variant="outline"
                   onClick={() => setIsDialogOpen(false)}
@@ -188,55 +196,57 @@ export default function SummaryCard({ summary }: SummaryCardProps) {
         </div>
       </CardHeader>
 
-      <CardContent>
-        <div className="space-y-3">
-          <p className="text-sm text-gray-600 line-clamp-3">
-            {summary.summary_text.length > 200
-              ? `${summary.summary_text.substring(0, 200)}...`
-              : summary.summary_text}
+      <CardContent className="pt-0">
+        <div className="space-y-4">
+          <p className="text-base leading-relaxed text-gray-600 line-clamp-4">
+            {summary.summary_text
+              ? summary.summary_text.length > 300
+                ? `${summary.summary_text.substring(0, 300)}...`
+                : summary.summary_text
+              : isFailed
+                ? "Processing failed."
+                : "Document is currently processing..."}
           </p>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between pt-4 border-t border-gray-100">
             <Badge
-              variant={summary.status ? "default" : "secondary"}
-              className={summary.status ? "bg-green-100 text-green-800" : ""}
+              variant={isCompleted ? "default" : isFailed ? "destructive" : "secondary"}
+              className={
+                isCompleted
+                  ? "bg-green-50 text-green-700"
+                  : isFailed
+                    ? "bg-red-50 text-red-700"
+                    : "bg-amber-50 text-amber-700"
+              }
             >
-              {summary.status ? "Completed" : "Processing"}
+              {isCompleted ? "Completed" : isFailed ? "Failed" : "Processing"}
             </Badge>
 
-            {/* <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               <Button
-                variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0 text-gray-500 hover:text-rose-600"
+                variant="outline"
+                className="text-sm text-gray-600 hover:text-gray-900"
                 onClick={handleViewPDF}
-                title="View Original PDF"
               >
-                <ExternalLink className="h-4 w-4" />
+                <Eye className="h-4 w-4" /> View PDF
               </Button>
-
               <Button
-                variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0 text-gray-500 hover:text-rose-600"
-                onClick={handleDownload}
+                variant="outline"
+                className="text-sm text-gray-600 hover:text-gray-900"
                 disabled={isDownloading}
-                title="Download Summary"
+                onClick={handleDownload}
               >
-                <Download className="h-4 w-4" />
+                {isDownloading ? (
+                  "Downloading..."
+                ) : (
+                  <>
+                    <Download className="h-4 w-4" /> Download
+                  </>
+                )}
               </Button>
-
-              <Link href={`/summaries/${summary.id}`}>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0 text-gray-500 hover:text-rose-600"
-                  title="View Summary"
-                >
-                  <Eye className="h-4 w-4" />
-                </Button>
-              </Link>
-            </div> */}
+            </div>
           </div>
         </div>
       </CardContent>

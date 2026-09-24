@@ -10,120 +10,103 @@ export default function ChatSection() {
   const { isSignedIn } = useAuth();
 
   return (
-    <section className="relative mx-auto flex flex-col items-center justify-center py-16 sm:py-20 lg:py-28 transition-all animate-in lg:px-12 max-w-7xl">
-      <div className="text-center mb-12">
-        {/* <div className="relative p-[1px] overflow-hidden rounded-full bg-gradient-to-r from-rose-200 via-rose-500 to-rose-800 animate-gradient-x group mb-6">
-          <div className="relative px-6 py-2 bg-white rounded-full">
-            <MessageCircle className="h-5 w-5 mr-2 text-rose-600 inline" />
-            <span className="text-sm font-medium text-rose-600">
-              Interactive Chat
+    <section className="relative isolate overflow-hidden bg-rose-950 py-24 lg:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="text-center">
+          <div className="mx-auto mb-8 inline-flex items-center gap-2 rounded-pill bg-white/10 px-5 py-2 text-sm font-normal text-white ring-1 ring-inset ring-white/20">
+            <MessageCircle className="h-4 w-4 text-rose-300" />
+            Interactive Chat
+          </div>
+
+          <h2 className="font-display text-4xl font-600 tracking-tight text-white sm:text-5xl lg:text-6xl">
+            Chat with your{" "}
+            <span className="relative whitespace-nowrap">
+              <span className="relative z-10 bg-rose-500 px-2 text-white">documents</span>
             </span>
-          </div>
-        </div> */}
+          </h2>
 
-        <h2 className="font-bold text-3xl sm:text-4xl lg:text-5xl mb-6">
-          Chat with Your{" "}
-          <span className="relative inline-block">
-            <span className="relative z-10 px-2">Documents</span>
-            <span className="absolute inset-0 bg-rose-200/50 -rotate-1 rounded-lg transform -skew-y-1"></span>
-          </span>
-        </h2>
+          <p className="mx-auto mt-8 max-w-2xl text-lg font-normal leading-relaxed text-rose-100/80 sm:text-xl">
+            Ask questions, get insights, and interact with your PDFs using
+            advanced AI. Get instant, grounded answers from your documents.
+          </p>
+        </div>
 
-        <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-          Ask questions, get insights, and interact with your PDFs using
-          advanced AI. Get instant answers from your documents.
-        </p>
-      </div>
-
-      {/* Chat Preview */}
-      <div className="relative w-full max-w-4xl mx-auto mb-12">
-        <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
-          {/* Chat Header */}
-          <div className="bg-gradient-to-r from-rose-400 to-rose-500 p-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-3 h-3 bg-white/20 rounded-full"></div>
-              <div className="w-3 h-3 bg-white/20 rounded-full"></div>
-              <div className="w-3 h-3 bg-white/20 rounded-full"></div>
-              <div className="flex-1 text-center">
-                <span className="text-white font-medium text-sm">
-                  SnapRead Chat
-                </span>
-              </div>
+        {/* Chat Preview */}
+        <div className="relative mx-auto mt-16 max-w-4xl">
+          <div className="overflow-hidden rounded-utility-card border border-white/10 bg-white shadow-2xl">
+            {/* Chat Header */}
+            <div className="flex items-center gap-3 border-b border-gray-100 bg-white px-5 py-4">
+              <span className="h-3 w-3 rounded-full bg-rose-400" />
+              <span className="h-3 w-3 rounded-full bg-rose-300" />
+              <span className="h-3 w-3 rounded-full bg-rose-200" />
+              <span className="ml-3 text-sm font-medium text-gray-700">
+                SnapRead Chat
+              </span>
             </div>
-          </div>
 
-          {/* Chat Messages */}
-          <div className="p-6 space-y-4">
-            <div className="flex justify-end">
-              <div className="bg-rose-500 text-white px-4 py-2 rounded-lg max-w-xs">
-                <p className="text-sm">
+            {/* Chat Messages */}
+            <div className="space-y-4 bg-white p-6">
+              <div className="flex justify-end">
+                <div className="max-w-xs rounded-2xl bg-rose-600 px-4 py-3 text-sm text-white">
                   What are the key findings in this report?
-                </p>
+                </div>
               </div>
-            </div>
 
-            <div className="flex justify-start">
-              <div className="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg max-w-md">
-                <p className="text-sm">
-                  Based on the document, the key findings include: market growth
-                  of 15%, increased customer satisfaction, and improved
-                  operational efficiency. The report highlights three main areas
-                  of success...
-                </p>
+              <div className="flex justify-start">
+                <div className="max-w-md rounded-2xl bg-gray-100 px-4 py-3 text-sm text-gray-800">
+                  Based on the document, the key findings include: market
+                  growth of 15%, increased customer satisfaction, and
+                  improved operational efficiency. The report highlights three
+                  main areas of success...
+                </div>
               </div>
-            </div>
 
-            <div className="flex justify-end">
-              <div className="bg-rose-500 text-white px-4 py-2 rounded-lg max-w-xs">
-                <p className="text-sm">Summarize the conclusion</p>
+              <div className="flex justify-end">
+                <div className="max-w-xs rounded-2xl bg-rose-600 px-4 py-3 text-sm text-white">
+                  Summarize the conclusion
+                </div>
               </div>
-            </div>
 
-            <div className="flex justify-start">
-              <div className="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg max-w-sm">
-                <p className="text-sm">
+              <div className="flex justify-start">
+                <div className="max-w-sm rounded-2xl bg-gray-100 px-4 py-3 text-sm text-gray-800">
                   The conclusion emphasizes sustainable growth strategies and
                   recommends immediate implementation of the proposed changes.
-                </p>
-                <div className="flex items-center mt-2">
-                  <Sparkles className="h-3 w-3 text-rose-500 mr-1" />
-                  <span className="text-xs text-rose-500 font-medium">
-                    AI Generated
+                  <span className="mt-2 flex items-center gap-1 text-xs text-rose-500">
+                    <Sparkles className="h-3 w-3" /> AI Generated
                   </span>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Chat Input */}
-          <div className="border-t border-gray-100 p-4">
-            <div className="flex space-x-3">
+            {/* Chat Input */}
+            <div className="flex items-center gap-3 border-t border-gray-100 bg-white p-4">
               <input
                 type="text"
                 placeholder="Ask anything about your document..."
-                className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
                 disabled
+                className="flex-1 rounded-pill border border-gray-200 bg-gray-50 px-5 py-3 text-base text-gray-400 outline-none"
               />
-              <Button
-                className="bg-rose-500 hover:bg-rose-600 text-white px-6"
-                disabled
-              >
+              <Button className="rounded-pill bg-rose-600 px-6 py-3 text-white hover:bg-rose-700" disabled>
                 Send
               </Button>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* CTA */}
-      {/* <div className="text-center">
-        <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
-          <Button className="bg-rose-500 hover:bg-rose-600 text-white px-8 py-3 text-lg font-medium group">
-            Start Chatting
-            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+        <div className="mt-12 text-center">
+          <Button
+            asChild
+            size="lg"
+            variant="default"
+            className="rounded-pill px-8 py-4 text-base font-light"
+          >
+            <Link href={isSignedIn ? "/dashboard" : "/sign-up"} className="flex items-center gap-2">
+              Start chatting
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </Button>
-        </Link>
-      </div> */}
+        </div>
+      </div>
     </section>
   );
 }

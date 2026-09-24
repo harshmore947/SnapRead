@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { currentUser } from "@clerk/nextjs/server";
 import { NavigationControls } from "./navigation-control";
 import ProgressBar from "./progress-bar";
 
@@ -50,9 +49,9 @@ export default function SummaryViewer({ summary }: { summary: string }) {
     setCurrentSection(Math.min(Math.max(index, 0), sections.length - 1));
   return (
     <div className="w-full flex justify-center">
-      <Card className="relative px-2 h-[400px] sm:h-[600px] lg:h-[600px] w-full max-w-2xl mx-auto bg-gradient-to-r from-background via-background/95 to-rose-500/5 backdrop-blur-lg shadow-2xl rounded-3xl border border-rose-500/10">
-        <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-800">
+      <Card className="relative h-[400px] sm:h-[600px] lg:h-[600px] w-full max-w-2xl mx-auto bg-gradient-to-r from-background via-background/95 to-rose-500/5 backdrop-blur-lg shadow-2xl rounded-3xl border border-rose-50">
+        <CardHeader className="border-b border-rose-100 pb-4">
+          <CardTitle className="text-xl font-semibold text-gray-900">
             {sections[currentSection].title}
           </CardTitle>
         </CardHeader>
@@ -64,7 +63,7 @@ export default function SummaryViewer({ summary }: { summary: string }) {
           <div className="prose max-w-none">
             {sections[currentSection].points.map((point, index) => (
               <div key={index} className="mb-3">
-                <p className="text-gray-700 leading-relaxed">{point}</p>
+                <p className="text-base leading-relaxed text-gray-700">{point}</p>
               </div>
             ))}
           </div>

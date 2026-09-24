@@ -3,53 +3,48 @@ import { ReactNode } from "react";
 
 type Step = {
   icons: ReactNode;
-  lable: string;
+  label: string;
   description: string;
 };
 
-const step: Step[] = [
+const steps: Step[] = [
   {
     icons: <FileText size={64} strokeWidth={1.5} />,
-    lable: "Upload PDF",
-    description: "Simply drag and drop your pdf document or click to upload",
+    label: "Upload PDF",
+    description: "Simply drag and drop your PDF document or click to upload",
   },
   {
     icons: <BrainCircuit size={64} strokeWidth={1.5} />,
-    lable: "AI Analysis",
-    description: "Our advance AI process and analyzes your document",
+    label: "AI Analysis",
+    description: "Our advanced AI processes and analyzes your document",
   },
   {
     icons: <FileOutput size={64} strokeWidth={1.5} />,
-    lable: "Get Summary",
-    description: "Recevie a clear, concise summary of your document",
+    label: "Get Summary",
+    description: "Receive a clear, concise summary of your document",
   },
 ];
 
 export default function HowItWorksSection() {
   return (
-    <section className="relative overflow-hidden ">
-      <div className="py-12 lg:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:pt-12">
-        <div className="text-center mb-16">
-          <h2 className="font-bold text-xl uppercase mb-4 text-rose-500">
+    <section className="relative isolate bg-white py-24 lg:py-32">
+      <div className="mx-auto max-w-5xl px-6 lg:px-8">
+        <div className="text-center">
+          <p className="text-sm font-normal uppercase tracking-wide text-rose-600">
             How it works
+          </p>
+          <h2 className="font-display mt-4 text-4xl font-600 tracking-tight text-rose-950 sm:text-5xl">
+            Transform any PDF into an easy-to-digest summary in three simple steps
           </h2>
-          <h3 className="font-bold text-3xl max-w-2xl mx-auto">
-            Transform any PDF into an easy-to-digest summary in three simple
-            steps
-          </h3>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto relative">
-          {step.map((item, idx) => (
-            <div key={idx} className="relative flex items-streach">
-              <StepItem key={idx} {...item} />
-              {idx < step.length - 1 && (
-                <div key={item.description} className="hidden absolute md:block top-1/2 -right-4 transform -translate-y-1/2 z-10">
-                  <MoveRight
-                    className="text-rose-400"
-                    size={32}
-                    strokeWidth={1}
-                  />
+        <div className="relative mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {steps.map((item, idx) => (
+            <div key={item.label} className="relative">
+              <StepItem {...item} />
+              {idx < steps.length - 1 && (
+                <div className="hidden lg:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10">
+                  <MoveRight className="text-rose-300" size={32} strokeWidth={1} />
                 </div>
               )}
             </div>
@@ -60,14 +55,14 @@ export default function HowItWorksSection() {
   );
 }
 
-function StepItem({ icons, lable, description }: Step) {
+function StepItem({ icons, label, description }: Step) {
   return (
-    <div className="relative flex flex-col items-center p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-rose-500/50 transition-colors duration-300 group w-full h-full cursor-pointer">
-      <div className="flex items-center justify-center h-24 w-24 mb-6 rounded-2xl bg-gradient-to-br from-rose-500/10 to-transparent group-hover:from-rose-500/30 transition-colors text-rose-500">
+    <div className="utility-card flex h-full flex-col items-center p-8 text-center">
+      <div className="flex h-24 w-24 items-center justify-center rounded-utility-card bg-rose-50 text-rose-600">
         {icons}
       </div>
-      <h4 className="text-center font-bold text-xl m">{lable}</h4>
-      <p className="text-center text-gray-600 text-sm flex-1">{description}</p>
+      <h4 className="mt-6 text-xl font-600 text-rose-950">{label}</h4>
+      <p className="mt-2 text-base leading-relaxed text-gray-600">{description}</p>
     </div>
   );
 }

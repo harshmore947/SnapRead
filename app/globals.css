@@ -14,6 +14,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   color: #000;
   /* text color on top of highlight */
 }
+
 /* Line clamp utilities */
 .line-clamp-2 {
   overflow: hidden;
@@ -37,91 +38,51 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 @theme inline {
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif,
       'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  
+
     --color-background: hsl(var(--background));
     --color-foreground: hsl(var(--foreground));
-  
+
     --color-card: hsl(var(--card));
     --color-card-foreground: hsl(var(--card-foreground));
-  
+
     --color-popover: hsl(var(--popover));
     --color-popover-foreground: hsl(var(--popover-foreground));
-  
+
     --color-primary: hsl(var(--primary));
     --color-primary-foreground: hsl(var(--primary-foreground));
-  
+
     --color-secondary: hsl(var(--secondary));
     --color-secondary-foreground: hsl(var(--secondary-foreground));
-  
+
     --color-muted: hsl(var(--muted));
     --color-muted-foreground: hsl(var(--muted-foreground));
-  
+
     --color-accent: hsl(var(--accent));
     --color-accent-foreground: hsl(var(--accent-foreground));
-  
+
     --color-destructive: hsl(var(--destructive));
     --color-destructive-foreground: hsl(var(--destructive-foreground));
-  
+
     --color-border: hsl(var(--border));
     --color-input: hsl(var(--input));
     --color-ring: hsl(var(--ring));
-  
+
     --color-chart-1: hsl(var(--chart-1));
     --color-chart-2: hsl(var(--chart-2));
     --color-chart-3: hsl(var(--chart-3));
     --color-chart-4: hsl(var(--chart-4));
     --color-chart-5: hsl(var(--chart-5));
-  
+
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
 }
 
+/* Apple-inspired design tokens from DESIGN.md */
 @layer base {
-
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
-}
-
-@layer utilities {
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  
-  /* Fixed container utility */
-  .container {
-    margin-inline: auto;
-    padding-inline: 1rem;
-    max-width: 100%;
-  }
-  
-  @media (min-width: 640px) {
-    .container {
-      padding-inline: 1.5rem;
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .container {
-      padding-inline: 2rem;
-      max-width: 1200px;
-    }
-  }
-  
-  @media (min-width: 1400px) {
-    .container {
-      max-width: 1400px;
-    }
-  }
-}
-
-:root {
-  --background: 0 0% 100%;
+  :root {
+    /* Rose/Crimson palette (preserved from existing design) */
+    --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -146,10 +107,58 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-}
 
-.dark {
-  --background: 222.2 84% 4.9%;
+    /* Apple-inspired design tokens */
+    --font-display: "SF Pro Display", system-ui, -apple-system, sans-serif;
+    --font-text: "SF Pro Text", system-ui, -apple-system, sans-serif;
+    --font-sans: var(--font-text);
+
+    /* Radii from DESIGN.md */
+    --radius-pill: 9999px;
+    --radius-utility-card: 18px;
+    --radius-xs: 5px;
+    --radius-sm: 8px;
+    --radius-md: 11px;
+    --radius-lg: 18px;
+
+    /* Spacing from DESIGN.md */
+    --space-xxs: 4px;
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 17px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-xxl: 48px;
+    --space-section: 80px;
+
+    /* Typography line-heights and letter-spacing from DESIGN.md */
+    --leading-tight: 1.07;
+    --leading-snug: 1.1;
+    --leading-normal: 1.47;
+    --leading-relaxed: 1.5;
+    --leading-airy: 2.41;
+
+    /* Negative letter-spacing for headlines */
+    --tracking-tight-display: -0.28px;
+    --tracking-tight-body: -0.374px;
+    --tracking-tight-caption: -0.224px;
+    --tracking-tagline: 0.231px;
+    --tracking-lead: 0.196px;
+    --tracking-button: 0px;
+    --tracking-caption: -0.224px;
+    --tracking-micro: -0.12px;
+    --tracking-micro-legal: -0.08px;
+    --tracking-nav: -0.12px;
+
+    /* Elevation shadows */
+    --shadow-product: 3px 5px 30px rgba(0, 0, 0, 0.22);
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-card-hover: 0 10px 25px rgba(0, 0, 0, 0.12), 0 4px 6px rgba(0, 0, 0, 0.08);
+    --shadow-frosted: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
@@ -173,15 +182,14 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+  }
 }
-
-
 
 @layer base {
   * {
     @apply border-border;
   }
-  
+
   html {
     font-size: 16px; /* Set base font size */
     -webkit-text-size-adjust: 100%; /* Prevent zoom adjustments */
@@ -191,40 +199,193 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   body {
     font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     min-width: 320px; /* Prevent layout breaking on very small screens */
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Apple-style heading typography with negative letter-spacing */
   h1 {
-    @apply text-4xl md:text-6xl xl:text-7xl font-bold;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(40px, 6vw, 56px);
+    line-height: 1.07;
+    letter-spacing: -0.28px;
+    color: #1D1D1F;
   }
 
-  h2{
-    @apply text-xl lg:text-3xl font-medium
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(32px, 5vw, 40px);
+    line-height: 1.1;
+    letter-spacing: 0;
+    color: #1D1D1F;
   }
 
-  h3{
-    @apply text-2xl lg:text-4xl font-medium
+  h3 {
+    font-family: var(--font-text);
+    font-weight: 600;
+    font-size: clamp(28px, 4vw, 34px);
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+    color: #1D1D1F;
   }
 
-  a{
-    @apply hover:cursor-pointer
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 21px;
+    line-height: 1.19;
+    letter-spacing: 0.231px;
+    color: #1D1D1F;
   }
 
-  button{
-    @apply hover:cursor-pointer bg-rose-600 hover:bg-rose-700
+  /* Apple-style body text - 17px reading pace */
+  p {
+    font-family: var(--font-text);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+    color: #1D1D1F;
   }
 
-  .nav-link{
-    @apply transition-colors text-sm duration-200 text-gray-600 hover:text-rose-500 whitespace-nowrap
+  /* Dense link columns - 2.41 leading */
+  .dense-links a {
+    font-family: var(--font-text);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 2.41;
+    letter-spacing: 0;
   }
+
+  /* Button typography */
+  button {
+    font-family: var(--font-text);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  /* Primary pill button - 18px */
+  .btn-primary {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.0;
+    padding: 11px 22px;
+    border-radius: var(--radius-pill);
+  }
+
+  /* Utility button - 14px */
+  .btn-utility {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.29;
+    letter-spacing: -0.224px;
+    padding: 8px 15px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Caption text */
+  .caption {
+    font-family: var(--font-text);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.43;
+    letter-spacing: -0.224px;
+    color: #7A7A7A;
+  }
+
+  .caption-strong {
+    font-family: var(--font-text);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.29;
+    letter-spacing: -0.224px;
+  }
+
+  /* Fine print */
+  .fine-print {
+    font-family: var(--font-text);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -0.12px;
+  }
+
+  /* Micro legal */
+  .micro-legal {
+    font-family: var(--font-text);
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.08px;
+  }
+
+  /* Nav link */
+  .nav-link {
+    font-family: var(--font-text);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -0.12px;
+  }
+
+  a {
+    @apply hover:cursor-pointer;
+  }
+
+  button {
+    @apply hover:cursor-pointer;
+  }
+}
+
+/* Frosted glass navigation */
+.nav-frosted {
+  background: rgba(245, 245, 247, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid #E0E0E0;
+}
+
+/* Utility card - 18px radius, no shadow on chrome */
+.utility-card {
+  border-radius: var(--radius-utility-card);
+  background: #FFFFFF;
+  border: 1px solid #F0F0F0;
+  box-shadow: none;
+}
+
+.utility-card:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Product tile - edge to edge, no radius */
+.product-tile {
+  border-radius: 0;
+  padding: 80px;
+}
+
+/* Pill input */
+.input-pill {
+  border-radius: var(--radius-pill);
+  padding: 12px 20px;
+  height: 44px;
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+}
+
+/* Apple-style section rhythm */
+.section-rhythm {
+  padding-block: var(--space-section);
+}
 
 @keyframes gradient-x {
-
-  0%,
-  100% {
+  0%, 100% {
     background-size: 200% 100%;
     background-position: left center;
   }
-
   50% {
     background-size: 200% 100%;
     background-position: right center;
@@ -234,5 +395,26 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 .animate-gradient-x {
   animation: gradient-x 3s ease infinite;
 }
+
+/* Rose color utilities - keeping existing palette */
+.bg-rose-gradient {
+  background: linear-gradient(to right, #f43f5e, #e11d48);
 }
 
+.text-rose-gradient {
+  background: linear-gradient(to right, #f43f5e, #e11d48);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Gradient text animation */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-gradient-text {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}

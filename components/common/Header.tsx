@@ -6,7 +6,7 @@ import { SignedOut } from "@clerk/clerk-react";
 
 function Header() {
   return (
-    <header className="w-full bg-white/80 backdrop-blur-md sticky top-0 z-50">
+    <header className="w-full bg-rose-50/80 backdrop-blur-md sticky top-0 z-50 nav-frosted">
       <nav className="max-w-7xl mx-auto flex items-center justify-between py-4 px-4 lg:px-8">
         {/* Left: Logo and Brand */}
         <div className="flex items-center gap-2 lg:gap-4 min-w-0">
