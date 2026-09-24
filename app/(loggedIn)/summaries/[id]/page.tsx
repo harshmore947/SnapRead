@@ -1,7 +1,7 @@
 import BgGradient from "@/components/common/bg-gradient";
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
+import { auth } from "@/lib/auth";
 import { ArrowLeft, FileText, Calendar, Sparkles, Clock } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -33,7 +33,8 @@ async function getSummary(id: string, userId: string) {
 }
 
 export default async function SummaryPage({ params }: SummaryPageProps) {
-  const { userId } = await auth();
+  const session = await auth();
+  const userId = session?.user?.id;
 
   if (!userId) {
     return notFound();

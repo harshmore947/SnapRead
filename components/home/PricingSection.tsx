@@ -6,7 +6,7 @@ export default function PricingSection() {
   return (
     <section
       id="pricing"
-      className="relative isolate overflow-hidden bg-rose-50 py-24 lg:py-32"
+      className="relative isolate overflow-hidden bg-white py-80 lg:py-80"
     >
       <div className="mx-auto max-w-5xl px-6 lg:px-8">
         <div className="text-center">
@@ -28,7 +28,7 @@ export default function PricingSection() {
               Pricing Plans Coming Soon!
             </h3>
 
-            <p className="mt-4 text-base leading-relaxed text-gray-600">
+            <p className="mt-4 text-base font-normal leading-relaxed text-gray-600">
               We're working hard to bring you flexible pricing options that fit
               your needs. For now, enjoy unlimited access to all features while
               we perfect our plans.

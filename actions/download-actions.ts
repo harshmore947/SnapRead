@@ -1,12 +1,12 @@
 "use server";
 
-import { auth } from "@clerk/nextjs/server";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function downloadSummary(summaryId: string) {
   try {
-    const { userId } = await auth();
-
+    const session = await auth();
+    const userId = session?.user?.id;
     if (!userId) {
       return {
         success: false,

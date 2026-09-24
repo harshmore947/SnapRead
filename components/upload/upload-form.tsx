@@ -5,8 +5,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { file, z } from "zod";
 import { generatePdfSummary } from "@/actions/upload-action";
-import { useAuth } from "@clerk/nextjs";
-import { routerServerGlobal } from "next/dist/server/lib/router-utils/router-server-context";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -20,7 +19,8 @@ const schema = z.object({
 export default function UploadFrom() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const { userId } = useAuth();
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
 

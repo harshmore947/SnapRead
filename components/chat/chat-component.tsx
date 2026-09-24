@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, UIMessage } from "ai";
 import { getChatMessages } from "@/actions/chat-actions";
+import { MarkdownMessage } from "./markdown-message";
 
 interface ChatComponentProps {
   summaryId: string;
@@ -149,7 +150,7 @@ export default function ChatComponent({
         {/* Messages Container - Fixed Height with Smooth Scroll */}
         <div
           ref={messagesContainerRef}
-          className="flex-1 overflow-y-auto space-y-4 p-4 bg-white/50 rounded-2xl border border-rose-100 scroll-smooth"
+          className="flex-1 overflow-y-auto space-y-4 p-4 bg-white/60 rounded-2xl border border-rose-100 scroll-smooth"
         >
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
@@ -160,7 +161,7 @@ export default function ChatComponent({
                 Start a conversation
               </h3>
               <p className="text-gray-600 text-sm max-w-sm mb-4">
-                Ask anything about the document content. I will read the full document text and answer in real-time.
+                Ask anything about the document content. I will read the full document text and answer in real-time with grounded citations.
               </p>
 
               {/* Quick Question Buttons */}
@@ -205,7 +206,7 @@ export default function ChatComponent({
                     /* User Message */
                     <div className="flex justify-end">
                       <div className="max-w-xs lg:max-w-md">
-                        <div className="bg-rose-600 text-white p-3 rounded-2xl rounded-br-md">
+                        <div className="bg-rose-600 text-white p-3.5 rounded-2xl rounded-br-md shadow-sm">
                           <p className="text-sm whitespace-pre-wrap">{textContent}</p>
                         </div>
                         <div className="flex items-center justify-end gap-1 mt-1">
@@ -217,11 +218,11 @@ export default function ChatComponent({
                       </div>
                     </div>
                   ) : (
-                    /* AI Assistant Response (Streams in real-time) */
+                    /* AI Assistant Response (Streams in real-time with Citations) */
                     <div className="flex justify-start">
-                      <div className="max-w-xs lg:max-w-md">
-                        <div className="bg-gray-100 text-gray-900 p-3 rounded-2xl rounded-bl-md">
-                          <p className="text-sm leading-relaxed whitespace-pre-wrap">{textContent}</p>
+                      <div className="max-w-xs sm:max-w-md lg:max-w-lg">
+                        <div className="bg-white/95 text-gray-900 p-4 rounded-2xl rounded-bl-md border border-rose-100/80 shadow-sm">
+                          <MarkdownMessage content={textContent} />
                         </div>
                         <div className="flex items-center justify-start gap-1 mt-1">
                           <Bot className="h-3 w-3 text-rose-600" />
@@ -239,9 +240,9 @@ export default function ChatComponent({
 
           {isLoading && messages[messages.length - 1]?.role === "user" && (
             <div className="flex justify-start">
-              <div className="bg-gray-100 text-gray-600 p-3 rounded-2xl rounded-bl-md flex items-center gap-2 text-sm">
+              <div className="bg-white/90 text-gray-600 p-3 rounded-2xl rounded-bl-md flex items-center gap-2 text-sm border border-rose-100 shadow-xs">
                 <div className="animate-spin rounded-full h-3.5 w-3.5 border-b-2 border-rose-600"></div>
-                <span>Analyzing document...</span>
+                <span>Analyzing document & grounding citations...</span>
               </div>
             </div>
           )}
@@ -266,7 +267,7 @@ export default function ChatComponent({
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Ask a question about the document..."
               disabled={isLoading}
-              className="flex-1 rounded-pill border border-rose-200 bg-transparent px-5 py-3 text-base outline-none focus-visible:border-rose-400 focus-visible:ring-rose-400/30 focus-visible:ring-[3px]"
+              className="flex-1 rounded-pill border border-rose-200 bg-white/80 px-5 py-3 text-base outline-none focus-visible:border-rose-400 focus-visible:ring-rose-400/30 focus-visible:ring-[3px]"
             />
             <Button
               type="submit"
@@ -282,7 +283,7 @@ export default function ChatComponent({
           </div>
 
           <p className="text-xs text-gray-500 text-center">
-            💡 Real-time streaming answers grounded in full document text
+            💡 Real-time conversational RAG with grounded citations & query contextualization
           </p>
         </form>
       </CardContent>

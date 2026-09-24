@@ -1,13 +1,13 @@
 "use server";
 
-import { auth } from "@clerk/nextjs/server";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { generateChatResponseFromGemini } from "@/lib/geminiAI";
 
 export async function getChatMessages(summaryId: string) {
   try {
-    const { userId } = await auth();
-
+    const session = await auth();
+    const userId = session?.user?.id;
     if (!userId) {
       return {
         success: false,
@@ -40,8 +40,8 @@ export async function getChatMessages(summaryId: string) {
 
 export async function sendChatMessage(summaryId: string, message: string) {
   try {
-    const { userId } = await auth();
-
+    const session = await auth();
+    const userId = session?.user?.id;
     if (!userId) {
       return {
         success: false,
@@ -101,8 +101,8 @@ export async function sendChatMessage(summaryId: string, message: string) {
 
 export async function deleteChatMessage(messageId: string) {
   try {
-    const { userId } = await auth();
-
+    const session = await auth();
+    const userId = session?.user?.id;
     if (!userId) {
       return {
         success: false,

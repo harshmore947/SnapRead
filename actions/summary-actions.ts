@@ -1,13 +1,13 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
+import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 export async function getUserSummaries() {
   try {
-    const { userId } = await auth();
-
+    const session = await auth();
+    const userId = session?.user?.id;
     if (!userId) {
       return {
         success: false,
@@ -42,8 +42,8 @@ export async function getUserSummaries() {
 
 export async function getUserSummaryCount() {
   try {
-    const { userId } = await auth();
-
+    const session = await auth();
+    const userId = session?.user?.id;
     if (!userId) {
       return {
         success: false,
@@ -75,8 +75,8 @@ export async function getUserSummaryCount() {
 
 export async function deleteSummary(summaryId: string) {
   try {
-    const { userId } = await auth();
-
+    const session = await auth();
+    const userId = session?.user?.id;
     if (!userId) {
       return {
         success: false,

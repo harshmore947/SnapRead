@@ -146,7 +146,6 @@ model DocumentChunk {
   section_path   String   @default("GENERAL")
   content        String   @db.Text
   token_estimate Int      @default(0)
-  content        String   @db.Text
   created_at     DateTime @default(now())
 
   // relation to parent PDFSummary

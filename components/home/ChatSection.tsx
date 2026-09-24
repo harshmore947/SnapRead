@@ -4,13 +4,14 @@ import React from "react";
 import { Button } from "../ui/button";
 import { MessageCircle, Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useAuth } from "@clerk/nextjs";
+import { useSession } from "next-auth/react";
 
 export default function ChatSection() {
-  const { isSignedIn } = useAuth();
+  const { status } = useSession();
+  const isSignedIn = status === "authenticated";
 
   return (
-    <section className="relative isolate overflow-hidden bg-rose-950 py-24 lg:py-32">
+    <section className="relative isolate overflow-hidden bg-rose-950 section-rhythm">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center">
           <div className="mx-auto mb-8 inline-flex items-center gap-2 rounded-pill bg-white/10 px-5 py-2 text-sm font-normal text-white ring-1 ring-inset ring-white/20">
@@ -25,9 +26,8 @@ export default function ChatSection() {
             </span>
           </h2>
 
-          <p className="mx-auto mt-8 max-w-2xl text-lg font-normal leading-relaxed text-rose-100/80 sm:text-xl">
-            Ask questions, get insights, and interact with your PDFs using
-            advanced AI. Get instant, grounded answers from your documents.
+          <p className="mx-auto mt-8 max-w-2xl text-base font-normal leading-normal tracking-tight-body text-white/90 sm:text-xl">
+            Ask questions, get insights, and interact with your PDFs using advanced AI. Get instant, grounded answers from your documents.
           </p>
         </div>
 
@@ -54,10 +54,7 @@ export default function ChatSection() {
 
               <div className="flex justify-start">
                 <div className="max-w-md rounded-2xl bg-gray-100 px-4 py-3 text-sm text-gray-800">
-                  Based on the document, the key findings include: market
-                  growth of 15%, increased customer satisfaction, and
-                  improved operational efficiency. The report highlights three
-                  main areas of success...
+                  Based on the document, the key findings include: market growth of 15%, increased customer satisfaction, and improved operational efficiency. The report highlights three main areas of success...
                 </div>
               </div>
 
@@ -69,27 +66,26 @@ export default function ChatSection() {
 
               <div className="flex justify-start">
                 <div className="max-w-sm rounded-2xl bg-gray-100 px-4 py-3 text-sm text-gray-800">
-                  The conclusion emphasizes sustainable growth strategies and
-                  recommends immediate implementation of the proposed changes.
+                  The conclusion emphasizes sustainable growth strategies and recommends immediate implementation of the proposed changes.
                   <span className="mt-2 flex items-center gap-1 text-xs text-rose-500">
-                    <Sparkles className="h-3 w-3" /> AI Generated
+                    <Sparkles className="h-3 w-3" />
+                    AI Generated
                   </span>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Chat Input */}
-            <div className="flex items-center gap-3 border-t border-gray-100 bg-white p-4">
-              <input
-                type="text"
-                placeholder="Ask anything about your document..."
-                disabled
-                className="flex-1 rounded-pill border border-gray-200 bg-gray-50 px-5 py-3 text-base text-gray-400 outline-none"
-              />
-              <Button className="rounded-pill bg-rose-600 px-6 py-3 text-white hover:bg-rose-700" disabled>
-                Send
-              </Button>
-            </div>
+          {/* Chat Input */}
+          <div className="flex items-center gap-3 border-t border-gray-100 bg-white p-4">
+            <input
+              type="text"
+              placeholder="Ask anything about your document..."
+              className="flex-1 rounded-pill border border-gray-200 bg-gray-50 px-5 py-3 text-base text-gray-600 outline-none"
+            />
+            <Button className="rounded-pill bg-rose-600 px-6 py-3 text-white hover:bg-rose-700">
+              Send
+            </Button>
           </div>
         </div>
 
@@ -98,7 +94,7 @@ export default function ChatSection() {
             asChild
             size="lg"
             variant="default"
-            className="rounded-pill px-8 py-4 text-base font-light"
+            className="btn-primary"
           >
             <Link href={isSignedIn ? "/dashboard" : "/sign-up"} className="flex items-center gap-2">
               Start chatting

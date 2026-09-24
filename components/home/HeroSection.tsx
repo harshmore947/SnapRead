@@ -1,14 +1,15 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { Button } from "../ui/button";
 import { ArrowRight, Sparkle } from "lucide-react";
 import { Badge } from "../ui/badge";
-import Link from "next/link";
-import { useAuth } from "@clerk/nextjs";
+import { useSession } from "next-auth/react";
 
 export default function HeroSection() {
-  const { isSignedIn } = useAuth();
+  const { status } = useSession();
+  const isSignedIn = status === "authenticated";
 
   return (
     <section className="relative isolate overflow-hidden bg-white">
@@ -30,7 +31,7 @@ export default function HeroSection() {
             summaries and chat
           </h1>
 
-          <p className="mt-8 max-w-3xl text-lg font-normal leading-relaxed text-gray-600 sm:text-xl">
+          <p className="mt-8 max-w-3xl text-lg font-normal leading-relaxed text-ink text-1D1D1F sm:text-xl">
             Get a beautiful, easy-to-read summary of your document in seconds.
             Ask questions and get grounded answers from the pages you care about.
           </p>
@@ -40,7 +41,7 @@ export default function HeroSection() {
               asChild
               size="lg"
               variant="default"
-              className="rounded-pill px-8 py-4 text-base font-light"
+              className="btn-primary"
             >
               <Link
                 href={isSignedIn ? "/dashboard" : "/sign-up"}
@@ -53,8 +54,8 @@ export default function HeroSection() {
             <Button
               asChild
               size="lg"
-              variant="outline"
-              className="rounded-pill px-8 py-4 text-base font-light"
+              variant="secondary"
+              className="btn-secondary"
             >
               <Link href="/upload">Upload a PDF</Link>
             </Button>

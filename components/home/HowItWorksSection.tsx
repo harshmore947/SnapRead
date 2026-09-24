@@ -27,13 +27,13 @@ const steps: Step[] = [
 
 export default function HowItWorksSection() {
   return (
-    <section className="relative isolate bg-white py-24 lg:py-32">
+    <section className="relative isolate bg-white section-rhythm">
       <div className="mx-auto max-w-5xl px-6 lg:px-8">
         <div className="text-center">
-          <p className="text-sm font-normal uppercase tracking-wide text-rose-600">
+          <p className="font-display text-sm font-600 tracking-tight text-rose-600">
             How it works
           </p>
-          <h2 className="font-display mt-4 text-4xl font-600 tracking-tight text-rose-950 sm:text-5xl">
+          <h2 className="font-display mt-6 text-4xl font-600 tracking-tight text-rose-950 sm:text-5xl">
             Transform any PDF into an easy-to-digest summary in three simple steps
           </h2>
         </div>
@@ -57,12 +57,12 @@ export default function HowItWorksSection() {
 
 function StepItem({ icons, label, description }: Step) {
   return (
-    <div className="utility-card flex h-full flex-col items-center p-8 text-center">
+    <div className="flex h-full flex-col items-center justify-center utility-card border border-[#F0F0F0] rounded-lg p-8 text-center">
       <div className="flex h-24 w-24 items-center justify-center rounded-utility-card bg-rose-50 text-rose-600">
         {icons}
       </div>
       <h4 className="mt-6 text-xl font-600 text-rose-950">{label}</h4>
-      <p className="mt-2 text-base leading-relaxed text-gray-600">{description}</p>
+      <p className="mt-2 text-base font-normal leading-relaxed tracking-tight-body text-rose-950/90">{description}</p>
     </div>
   );
 }

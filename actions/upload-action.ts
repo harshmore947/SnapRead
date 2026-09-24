@@ -2,7 +2,7 @@
 
 import { inngest } from "@/lib/inngest/client";
 import { prisma } from "@/lib/prisma";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
 export async function generatePdfSummary(
@@ -26,7 +26,7 @@ export async function generatePdfSummary(
 
   const {
     serverData: {
-      userId,
+      userId: providedUserId,
       file: { url: pdfUrl, name: fileName },
     },
   } = uploadResponse[0];
@@ -39,11 +39,20 @@ export async function generatePdfSummary(
     };
   }
 
-  // Authenticate user with Clerk
-  const { userId: clerkUserId } = await auth();
+  // Authenticate user with NextAuth
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) {
+    return {
+      success: false,
+      message: "Unauthorized",
+      data: null,
+    };
+  }
 
-  if (!clerkUserId || clerkUserId !== userId) {
-    console.error("User authentication mismatch!");
+  // Optional: verify that the provided userId matches the session userId
+  if (providedUserId !== userId) {
+    console.error("User ID mismatch: provided", providedUserId, "session", userId);
     return {
       success: false,
       message: "User authentication failed",
@@ -51,45 +60,20 @@ export async function generatePdfSummary(
     };
   }
 
-  const clerkUser = await currentUser();
-
   try {
-    // Check if user exists in database, if not create them
-    let user = await prisma.user.findUnique({
+    // Check if user exists in database
+    const user = await prisma.user.findUnique({
       where: { id: userId },
     });
 
     if (!user) {
-      console.log("User not found in database, creating user record");
-      try {
-        user = await prisma.user.create({
-          data: {
-            id: userId,
-            email:
-              clerkUser?.emailAddresses[0]?.emailAddress ||
-              `user_${userId}@temp.com`,
-            full_name: clerkUser
-              ? `${clerkUser.firstName || ""} ${
-                  clerkUser.lastName || ""
-                }`.trim() || "User"
-              : "User",
-            customer_id: "",
-            price_id: "",
-            status: true,
-          },
-        });
-        console.log("User created successfully:", user.id);
-      } catch (createUserError) {
-        console.error(
-          "Failed to create user - detailed error:",
-          createUserError
-        );
-        return {
-          success: false,
-          message: "Failed to create user record",
-          data: null,
-        };
-      }
+      // User should have been created via sign-up; if not found, return error.
+      console.error("User not found in database for id:", userId);
+      return {
+        success: false,
+        message: "User not found",
+        data: null,
+      };
     }
 
     // Check if user has reached the 3 PDF limit
